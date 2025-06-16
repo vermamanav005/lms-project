@@ -18,7 +18,8 @@
 ### 🎓 Student Dashboard
 ![Student Dashboard](./screenshots/screenshot_1.jpg)
 
-
+### 🎓 Admin Dashboard
+![Admin Dashboard](./screenshots/screenshot_admin.jpg)
 
 ---
 
