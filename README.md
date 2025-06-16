@@ -66,3 +66,5 @@ Ensure you have the following installed:
    ```bash
    git clone https://github.com/vermamanav005/lms-project.git
    cd lms-project
+   npm install
+   npm run dev
