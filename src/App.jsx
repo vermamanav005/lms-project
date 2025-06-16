@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Courses from './pages/Courses';
@@ -13,19 +14,24 @@ import Students from './pages/Students';
 import Quizzes from './pages/Quizzes';
 import EnrolledCourses from './pages/EnrolledCourses';
 
-function ProtectedRoute({ isAuthenticated, userRole, allowedRoles, children }) {
+function ProtectedRoute({ isAuthenticated, userRole, allowedRoles, children, redirectAuthenticated }) {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !redirectAuthenticated) {
       navigate(`/login?redirectTo=${encodeURIComponent(location.pathname)}`, { replace: true });
-    } else if (allowedRoles && !allowedRoles.includes(userRole)) {
-      navigate('/dashboard', { replace: true });
+    } else if (isAuthenticated && redirectAuthenticated) {
+      const redirectTo = userRole === 'Admin' ? '/admin-dashboard' : '/dashboard';
+      navigate(redirectTo, { replace: true });
+    } else if (isAuthenticated && allowedRoles && !allowedRoles.includes(userRole)) {
+      navigate(userRole === 'Admin' ? '/admin-dashboard' : '/dashboard', { replace: true });
     }
-  }, [isAuthenticated, userRole, allowedRoles, location.pathname, navigate]);
+  }, [isAuthenticated, userRole, allowedRoles, redirectAuthenticated, location.pathname, navigate]);
 
-  return isAuthenticated && (!allowedRoles || allowedRoles.includes(userRole)) ? children : null;
+  return isAuthenticated === !redirectAuthenticated && (!allowedRoles || allowedRoles.includes(userRole))
+    ? children
+    : null;
 }
 
 function App() {
@@ -39,7 +45,7 @@ function App() {
     setIsAuthenticated(true);
     setUserRole(role);
     const params = new URLSearchParams(location.search);
-    const redirectTo = params.get('redirectTo') || '/dashboard';
+    const redirectTo = params.get('redirectTo') || (role === 'Admin' ? '/admin-dashboard' : '/dashboard');
     navigate(redirectTo, { replace: true });
   };
 
@@ -58,19 +64,18 @@ function App() {
     setIsSidebarOpen(false);
   };
 
-  // Monitor navigation to protected routes and home page
+  // Monitor navigation to protected routes
   useEffect(() => {
     const protectedRoutes = [
       '/dashboard',
+      '/admin-dashboard',
       '/courses',
       '/courses/add',
       '/students',
       '/quizzes',
       '/enrolled-courses',
     ];
-    if (isAuthenticated && location.pathname === '/') {
-      navigate('/dashboard', { replace: true });
-    } else if (!isAuthenticated && protectedRoutes.includes(location.pathname)) {
+    if (!isAuthenticated && protectedRoutes.includes(location.pathname)) {
       navigate(`/login?redirectTo=${encodeURIComponent(location.pathname)}`, { replace: true });
     }
   }, [isAuthenticated, location.pathname, navigate]);
@@ -90,11 +95,23 @@ function App() {
           isAuthenticated={isAuthenticated}
           userRole={userRole}
           handleLogout={handleLogout}
+          toggleSidebar={isAuthenticated ? toggleSidebar : null}
         />
       </div>
       <main className={`col-start-2 row-start-2 p-4 ${isAuthenticated ? 'lg:ml-16' : ''}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                userRole={userRole}
+                redirectAuthenticated={true}
+              >
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/dashboard"
             element={
@@ -104,6 +121,18 @@ function App() {
                 ) : (
                   <Dashboard userRole={userRole} />
                 )}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                userRole={userRole}
+                allowedRoles={['Admin']}
+              >
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />
@@ -127,7 +156,7 @@ function App() {
               <ProtectedRoute
                 isAuthenticated={isAuthenticated}
                 userRole={userRole}
-                allowedRoles={['Teacher']}
+                allowedRoles={['Teacher', 'Admin']}
               >
                 <AddCourse />
               </ProtectedRoute>

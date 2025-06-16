@@ -19,13 +19,16 @@ function Sidebar({ userRole, isSidebarOpen, toggleSidebar, closeSidebar }) {
       { path: '/students', name: 'Students', icon: UsersIcon },
       { path: '/quizzes', name: 'Quizzes', icon: QuestionMarkCircleIcon },
     ],
+    Admin: [
+      { path: '/admin-dashboard', name: 'Admin Dashboard', icon: ChartBarIcon },
+    ],
   };
 
   const items = menuItems[userRole] || menuItems.Student;
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-lg z-30 w-64 lg:w-16 lg:hover:w-64 transition-all duration-300 ease-in-out group ${
+      className={`pt-20 fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-lg z-30 w-64 lg:w-16 lg:hover:w-64 transition-all duration-300 ease-in-out group ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0`}
     >

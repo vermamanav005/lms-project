@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   HomeIcon,
@@ -9,13 +10,14 @@ import {
   UserPlusIcon,
 } from '@heroicons/react/24/outline';
 
-function Navbar({ isAuthenticated, userRole, handleLogout }) {
+function Navbar({ isAuthenticated, userRole, handleLogout, toggleSidebar }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const navItems = isAuthenticated
     ? [
-        { path: '/dashboard', label: 'Dashboard' },
+        { path: userRole === 'Admin' ? '/admin-dashboard' : '/dashboard', label: userRole === 'Admin' ? 'Admin Dashboard' : 'Dashboard' },
       ]
     : [
         { path: '/', label: 'Home' },
@@ -27,6 +29,7 @@ function Navbar({ isAuthenticated, userRole, handleLogout }) {
   const routePageNames = {
     '/': 'Home',
     '/dashboard': 'Dashboard',
+    '/admin-dashboard': 'Admin Dashboard',
     '/courses': 'Courses',
     '/courses/add': 'Add Course',
     '/students': 'Students',
@@ -40,6 +43,7 @@ function Navbar({ isAuthenticated, userRole, handleLogout }) {
   const routeIcons = {
     '/': HomeIcon,
     '/dashboard': ChartBarIcon,
+    '/admin-dashboard': ChartBarIcon,
     '/courses': BookOpenIcon,
     '/courses/add': BookOpenIcon,
     '/students': UsersIcon,
@@ -50,8 +54,8 @@ function Navbar({ isAuthenticated, userRole, handleLogout }) {
   };
 
   // Get the page name and icon for the current route
-  const pageName = routePageNames[location.pathname] || 'Home';
-  const CurrentIcon = routeIcons[location.pathname] || HomeIcon;
+  const pageName = routePageNames[location.pathname] || 'Dashboard';
+  const CurrentIcon = routeIcons[location.pathname] || ChartBarIcon;
 
   // Construct breadcrumb text
   const breadcrumbText = isAuthenticated && userRole
@@ -61,30 +65,31 @@ function Navbar({ isAuthenticated, userRole, handleLogout }) {
   // Handle logout with redirection
   const handleLogoutAndRedirect = () => {
     handleLogout();
+    setIsMenuOpen(false);
     navigate('/');
   };
 
   return (
     <nav className="bg-white text-violet-500 border-b border-gray-200 shadow-md fixed top-0 w-full z-40">
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-14">
+        <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center text-2xl font-bold">
+            {isAuthenticated }
+            <Link to="/" className="flex items-center text-2xl font-bold">
               <CurrentIcon className="h-8 w-8 mr-2" />
               {breadcrumbText}
             </Link>
           </div>
 
-          {/* menu */}
-          <div className="flex items-center space-x-4">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-2 rounded-full text-sm text-black font-medium ${
+                className={`px-3 py-2 rounded-full text-sm font-medium ${
                   location.pathname === item.path
-                    ? 'bg-violet-300'
+                    ? 'bg-violet-400 text-white'
                     : 'hover:bg-black hover:text-white'
                 }`}
               >
@@ -100,6 +105,8 @@ function Navbar({ isAuthenticated, userRole, handleLogout }) {
               </button>
             )}
           </div>
+
+          
         </div>
       </div>
     </nav>
