@@ -28,28 +28,28 @@ function Sidebar({ userRole, isSidebarOpen, toggleSidebar, closeSidebar }) {
 
   return (
     <div
-      className={`pt-20 fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-lg z-30 w-64 lg:w-16 lg:hover:w-64 transition-all duration-300 ease-in-out group ${
+      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 shadow-lg z-30 w-72 md:w-64 lg:w-16 lg:hover:w-64 transition-all duration-300 ease-in-out group ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0`}
     >
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 lg:hidden">
-        <span className="text-xl font-bold text-gray-900">Menu</span>
-        <button onClick={toggleSidebar} className="p-2">
+        <span className="text-xl font-bold text-gray-900">Latte Labs</span>
+        <button onClick={toggleSidebar} className="p-2 rounded-full hover:bg-gray-100">
           <svg className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-      <nav className="mt-5">
+      <nav className="mt-4 px-2">
         {items.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-violet-500"
+            className="flex items-center px-4 py-3 my-1 text-gray-700 rounded-lg hover:bg-gray-100 hover:text-violet-500 transition-colors duration-200"
             onClick={closeSidebar}
           >
             <item.icon className="h-6 w-6 mr-3 flex-shrink-0" />
-            <span className="lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            <span className="lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap text-sm font-medium">
               {item.name}
             </span>
           </Link>
