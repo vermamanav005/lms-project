@@ -28,7 +28,7 @@ function Sidebar({ userRole, isSidebarOpen, toggleSidebar, closeSidebar }) {
 
   return (
     <div
-      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-gray-300 border-r border-gray-200 shadow-lg z-30 w-72 md:w-64 lg:w-16 lg:hover:w-64 transition-all duration-300 ease-in-out group ${
+      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-gray-200 border-r border-gray-200 shadow-lg z-30 w-72 md:w-64 lg:w-16 lg:hover:w-64 transition-all duration-300 ease-in-out group ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0`}
     >
