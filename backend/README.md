@@ -561,10 +561,4 @@ tail -f /var/log/mongodb/mongod.log
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📝 License
-
-This project is licensed under the MIT License.
-
----
-
-**Built with ❤️ for modern education** 
+ 

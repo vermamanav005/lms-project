@@ -264,10 +264,6 @@ curl -X GET http://localhost:5001/api/auth/me \
 4. Push to branch: `git push origin feature-name`
 5. Submit a pull request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🆘 Support
 
 For support and questions:
@@ -286,7 +282,3 @@ For support and questions:
 - **v0.3.0** - Initial React setup with routing
 - **v0.2.0** - Project structure and planning
 - **v0.1.0** - Project initialization
-
----
-
-**Built with ❤️ for modern education**
