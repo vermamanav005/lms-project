@@ -241,21 +241,6 @@ curl -X GET http://localhost:5001/api/auth/me \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
-## 📦 Deployment
-
-### Frontend Deployment
-1. Build the project: `npm run build`
-2. Deploy the `dist` folder to your hosting service
-
-### Backend Deployment
-1. Set up environment variables
-2. Install dependencies: `npm install`
-3. Start the server: `npm start`
-
-### Database Deployment
-- Use MongoDB Atlas for cloud hosting
-- Update `MONGODB_URI` in environment variables
-
 ## 🤝 Contributing
 
 1. Fork the repository
