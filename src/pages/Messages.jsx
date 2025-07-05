@@ -10,7 +10,7 @@ import {
 import { messagesAPI, usersAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
-function Messages() {
+function Messages({ currentUser }) {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -188,12 +188,12 @@ function Messages() {
                     key={message._id}
                     onClick={() => {
                       setSelectedMessage(message);
-                      if (!message.isRead && message.recipient._id === localStorage.getItem('userId')) {
+                      if (!message.isRead && message.recipient._id === currentUser?._id) {
                         handleMarkAsRead(message._id);
                       }
                     }}
                     className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
-                      !message.isRead && message.recipient._id === localStorage.getItem('userId') 
+                      !message.isRead && message.recipient._id === currentUser?._id
                         ? 'bg-blue-50 border-l-4 border-l-blue-500' 
                         : ''
                     }`}
@@ -205,7 +205,7 @@ function Messages() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <p className={`text-sm font-medium ${
-                            !message.isRead && message.recipient._id === localStorage.getItem('userId')
+                            !message.isRead && message.recipient._id === currentUser?._id
                               ? 'text-gray-900'
                               : 'text-gray-700'
                           }`}>

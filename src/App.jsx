@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { authAPI, setAuthToken, getAuthToken } from './services/api';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
@@ -40,13 +41,16 @@ function ProtectedRoute({ isAuthenticated, userRole, allowedRoles, children, red
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLogin = (role) => {
+  const handleLogin = (role, user) => {
     setIsAuthenticated(true);
     setUserRole(role);
+    setCurrentUser(user);
     const params = new URLSearchParams(location.search);
     const redirectTo = params.get('redirectTo') || (role === 'Admin' ? '/admin-dashboard' : '/dashboard');
     navigate(redirectTo, { replace: true });
@@ -55,7 +59,9 @@ function App() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserRole(null);
+    setCurrentUser(null);
     setIsSidebarOpen(false);
+    setAuthToken(null);
     navigate('/', { replace: true });
   };
 
@@ -67,8 +73,31 @@ function App() {
     setIsSidebarOpen(false);
   };
 
+  // Check for existing authentication on app load
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = getAuthToken();
+      if (token) {
+        try {
+          const response = await authAPI.getProfile();
+          const user = response.data.data.user;
+          setIsAuthenticated(true);
+          setUserRole(user.role);
+          setCurrentUser(user);
+        } catch (error) {
+          setAuthToken(null);
+        }
+      }
+      setLoading(false);
+    };
+    
+    checkAuth();
+  }, []);
+
   // Monitor navigation to protected routes
   useEffect(() => {
+    if (loading) return;
+    
     const protectedRoutes = [
       '/dashboard',
       '/admin-dashboard',
@@ -77,11 +106,20 @@ function App() {
       '/students',
       '/quizzes',
       '/enrolled-courses',
+      '/messages',
     ];
     if (!isAuthenticated && protectedRoutes.includes(location.pathname)) {
       navigate(`/login?redirectTo=${encodeURIComponent(location.pathname)}`, { replace: true });
     }
-  }, [isAuthenticated, location.pathname, navigate]);
+  }, [isAuthenticated, location.pathname, navigate, loading]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-violet-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
@@ -121,9 +159,9 @@ function App() {
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole}>
                 {userRole === 'Teacher' ? (
-                  <TeacherDashboard userRole={userRole} />
+                  <TeacherDashboard userRole={userRole} currentUser={currentUser} />
                 ) : (
-                  <Dashboard userRole={userRole} />
+                  <Dashboard userRole={userRole} currentUser={currentUser} />
                 )}
               </ProtectedRoute>
             }
@@ -136,7 +174,7 @@ function App() {
                 userRole={userRole}
                 allowedRoles={['Admin']}
               >
-                <AdminDashboard />
+                <AdminDashboard currentUser={currentUser} />
               </ProtectedRoute>
             }
           />
@@ -150,7 +188,7 @@ function App() {
                 userRole={userRole}
                 allowedRoles={['Teacher']}
               >
-                <Courses />
+                <Courses currentUser={currentUser} />
               </ProtectedRoute>
             }
           />
@@ -206,7 +244,7 @@ function App() {
                 userRole={userRole}
                 allowedRoles={['Student']}
               >
-                <EnrolledCourses />
+                <EnrolledCourses currentUser={currentUser} />
               </ProtectedRoute>
             }
           />
@@ -217,7 +255,7 @@ function App() {
                 isAuthenticated={isAuthenticated}
                 userRole={userRole}
               >
-                <Messages />
+                <Messages currentUser={currentUser} />
               </ProtectedRoute>
             }
           />

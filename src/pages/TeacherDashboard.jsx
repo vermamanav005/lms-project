@@ -6,7 +6,7 @@ import {
   ClockIcon,
 } from '@heroicons/react/24/outline';
 
-function TeacherDashboard({ userRole }) {
+function TeacherDashboard({ userRole, currentUser }) {
   // Mock data for demonstration
   const managedCourses = [
     { id: 1, title: 'Introduction to Computer Science', studentCount: 30 },

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { authAPI, setAuthToken } from '../services/api';
+import toast from 'react-hot-toast';
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Student');
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -15,15 +17,33 @@ function Login({ onLogin }) {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    // Mock login
-    onLogin(role);
+
+    setLoading(true);
+    try {
+      const response = await authAPI.login({ email, password });
+      const { user, token } = response.data.data;
+      
+      // Store token
+      setAuthToken(token);
+      
+      // Call onLogin with user data
+      onLogin(user.role, user);
+      
+      toast.success('Login successful!');
+    } catch (error) {
+      const message = error.response?.data?.message || 'Login failed';
+      toast.error(message);
+      setErrors({ general: message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,29 +98,15 @@ function Login({ onLogin }) {
             </div>
           </div>
 
-          <div>
-            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-              Role
-            </label>
-            <select
-              id="role"
-              name="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 sm:text-sm"
-            >
-              <option value="Student">Student</option>
-              <option value="Teacher">Teacher</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div>
+
 
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-violet-400 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-voilet-700"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-violet-400 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-voilet-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign in
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
         </form>

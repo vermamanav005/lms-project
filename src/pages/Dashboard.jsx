@@ -5,7 +5,7 @@ import {
   ClockIcon,
 } from '@heroicons/react/24/outline';
 
-function Dashboard({ userRole }) {
+function Dashboard({ userRole, currentUser }) {
   // Mock data for demonstration
   const enrolledCourses = [
     { id: 1, title: 'Introduction to Computer Science', progress: 75 },

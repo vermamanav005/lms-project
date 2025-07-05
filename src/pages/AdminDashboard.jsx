@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UsersIcon, BookOpenIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 
-function AdminDashboard() {
+function AdminDashboard({ currentUser }) {
   // Mock data for users
   const [users, setUsers] = useState([
     { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },

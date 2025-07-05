@@ -13,7 +13,7 @@ import {
 import { enrollmentsAPI, coursesAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
-function EnrolledCourses() {
+function EnrolledCourses({ currentUser }) {
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,7 +25,7 @@ function EnrolledCourses() {
 
   const loadEnrollments = async () => {
     try {
-      const response = await enrollmentsAPI.getByStudent(localStorage.getItem('userId'));
+      const response = await enrollmentsAPI.getByStudent(currentUser._id);
       setEnrollments(response.data);
     } catch (error) {
       toast.error('Failed to load enrolled courses');

@@ -15,7 +15,7 @@ import {
 import { coursesAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
-function Courses() {
+function Courses({ currentUser }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,7 +29,7 @@ function Courses() {
 
   const loadCourses = async () => {
     try {
-      const response = await coursesAPI.getByTeacher(localStorage.getItem('userId'));
+      const response = await coursesAPI.getByTeacher(currentUser._id);
       setCourses(response.data);
     } catch (error) {
       toast.error('Failed to load courses');
