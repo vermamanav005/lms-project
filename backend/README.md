@@ -437,52 +437,6 @@ The API uses consistent error responses:
 }
 ```
 
-## 📦 Deployment
-
-### Production Setup
-1. **Environment Configuration**
-   ```bash
-   NODE_ENV=production
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/lms-project
-   JWT_SECRET=your-production-secret-key
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   npm install --production
-   ```
-
-3. **Start Server**
-   ```bash
-   npm start
-   ```
-
-### Docker Deployment
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY . .
-EXPOSE 5001
-CMD ["npm", "start"]
-```
-
-### PM2 Process Management
-```bash
-# Install PM2
-npm install -g pm2
-
-# Start application
-pm2 start server.js --name "lms-backend"
-
-# Monitor
-pm2 monit
-
-# Logs
-pm2 logs lms-backend
-```
-
 ## 🔒 Security Considerations
 
 ### JWT Security
