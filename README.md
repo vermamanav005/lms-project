@@ -1,265 +1,292 @@
 # Learning Management System (LMS)
 
-A comprehensive Learning Management System built with React, Node.js, and MongoDB. This system provides a complete platform for educational institutions to manage courses, students, teachers, and learning content.
+A comprehensive Learning Management System built with React frontend and Node.js backend, featuring role-based access control, real-time messaging, course management, and quiz systems.
 
 ## 🚀 Features
 
-### For Students
-- **Course Enrollment**: Browse and enroll in available courses
-- **Progress Tracking**: Monitor learning progress with visual indicators
-- **Quiz Taking**: Take quizzes and view results
-- **Course Materials**: Access course content and resources
-- **Messaging**: Communicate with teachers and admins
-- **Dashboard**: View enrolled courses and recent activities
+### 🔐 Authentication & Authorization
+- **JWT-based Authentication** with secure token management
+- **Role-based Access Control** (Admin, Teacher, Student)
+- **Protected Routes** with automatic redirects
+- **Session Management** with persistent login
 
-### For Teachers
-- **Course Management**: Create, edit, and manage courses
-- **Student Management**: View enrolled students and their progress
-- **Quiz Creation**: Create and manage quizzes for assessment
-- **Messaging**: Send announcements and communicate with students
-- **Analytics**: View course statistics and student performance
-- **Content Management**: Upload and organize course materials
+### 👥 User Management
+- **Multi-role Support**: Admin, Teacher, Student
+- **User Profiles** with detailed information
+- **Profile Management** with avatar and bio
+- **User Search & Filtering**
 
-### For Administrators
-- **User Management**: Manage all users (students, teachers, admins)
-- **System Overview**: Dashboard with system-wide statistics
-- **Course Oversight**: Monitor all courses and enrollments
-- **Messaging**: Send system-wide announcements
-- **Role Management**: Assign and manage user roles
+### 📚 Course Management
+- **Course Creation & Editing** (Teachers & Admins)
+- **Course Categories & Levels**
+- **Prerequisites & Learning Objectives**
+- **Course Enrollment System**
+- **Progress Tracking**
+
+### 💬 Messaging System
+- **Real-time Messaging** between users
+- **Course-specific Messages**
+- **Announcements** (Teachers & Admins)
+- **Message Threads & Conversations**
+- **Unread Message Tracking**
+
+### 🧪 Quiz System
+- **Quiz Creation & Management**
+- **Multiple Question Types**
+- **Auto-grading System**
+- **Quiz Results & Analytics**
+- **Student Progress Tracking**
+
+### 📊 Dashboard & Analytics
+- **Role-specific Dashboards**
+- **Progress Analytics**
+- **Enrollment Statistics**
+- **Performance Metrics**
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** - UI framework
-- **React Router** - Client-side routing
-- **Tailwind CSS** - Styling framework
-- **Heroicons** - Icon library
-- **Axios** - HTTP client
-- **React Hot Toast** - Notifications
-- **React Hook Form** - Form management
+- **React 18** with Vite
+- **React Router** for navigation
+- **Tailwind CSS** for styling
+- **Heroicons** for icons
+- **React Hot Toast** for notifications
+- **Axios** for API calls
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - Database
-- **Mongoose** - ODM for MongoDB
-- **JWT** - Authentication
-- **bcryptjs** - Password hashing
-- **Helmet** - Security middleware
-- **CORS** - Cross-origin resource sharing
+- **Node.js** with Express.js
+- **MongoDB** with Mongoose ODM
+- **JWT** for authentication
+- **bcryptjs** for password hashing
+- **express-validator** for input validation
+- **cors** for cross-origin requests
 
-## 📦 Installation
+### Database
+- **MongoDB** for data persistence
+- **Mongoose** for schema management
+- **Indexed collections** for performance
+
+## 📁 Project Structure
+
+```
+lms-project/
+├── backend/                 # Node.js Backend
+│   ├── models/             # MongoDB Schemas
+│   ├── routes/             # API Routes
+│   ├── middleware/         # Custom Middleware
+│   ├── scripts/            # Database Scripts
+│   └── server.js           # Main Server File
+├── src/                    # React Frontend
+│   ├── components/         # Reusable Components
+│   ├── pages/              # Page Components
+│   ├── services/           # API Services
+│   └── App.jsx             # Main App Component
+├── public/                 # Static Assets
+└── package.json            # Dependencies
+```
+
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js (v16 or higher)
-- MongoDB (v4.4 or higher)
+- MongoDB (local or cloud)
 - npm or yarn
 
-### Backend Setup
+### Installation
 
-1. **Navigate to backend directory**:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/lms-project.git
+   cd lms-project
+   ```
+
+2. **Install Frontend Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install Backend Dependencies**
    ```bash
    cd backend
-   ```
-
-2. **Install dependencies**:
-   ```bash
    npm install
    ```
 
-3. **Environment Configuration**:
-   Create a `.env` file in the backend directory:
-   ```env
-   PORT=5000
+4. **Environment Setup**
+   ```bash
+   # Copy backend environment file
+   cp backend/env.example backend/.env
+   
+   # Edit backend/.env with your configuration
    MONGODB_URI=mongodb://localhost:27017/lms-project
-   JWT_SECRET=your_jwt_secret_here
-   FRONTEND_URL=http://localhost:5173
+   JWT_SECRET=your-super-secret-jwt-key-here
+   PORT=5001
    ```
 
-4. **Start the server**:
+5. **Start MongoDB**
    ```bash
+   # If using local MongoDB
+   mongod
+   ```
+
+6. **Seed the Database**
+   ```bash
+   cd backend
+   node scripts/seed.js
+   ```
+
+7. **Start the Backend Server**
+   ```bash
+   cd backend
+   npm start
+   ```
+
+8. **Start the Frontend Development Server**
+   ```bash
+   # In a new terminal
    npm run dev
    ```
 
-5. **Seed the database** (optional):
-   ```bash
-   npm run seed
-   ```
+9. **Access the Application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:5001
 
-### Frontend Setup
+## 👤 Default Login Credentials
 
-1. **Navigate to project root**:
-   ```bash
-   cd ..
-   ```
+### Admin Account
+- **Email**: admin@lms.com
+- **Password**: admin123
+- **Role**: Admin (Full access)
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+### Teacher Account
+- **Email**: priya.sharma@lms.com
+- **Password**: teacher123
+- **Role**: Teacher (Course management)
 
-3. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
+### Student Account
+- **Email**: aisha.khan@student.com
+- **Password**: student123
+- **Role**: Student (Course enrollment)
 
-4. **Open your browser**:
-   Navigate to `http://localhost:5173`
-
-## 🗄️ Database Schema
-
-### Users
-- Name, email, password, role (Student/Teacher/Admin)
-- Profile information and preferences
-- Account status and creation date
-
-### Courses
-- Title, description, instructor
-- Category, level, duration
-- Status (active/inactive/draft)
-- Enrollment count and course materials
-
-### Enrollments
-- Student and course references
-- Enrollment date and progress
-- Last accessed timestamp
-- Quiz results and completion status
-
-### Quizzes
-- Title, description, course reference
-- Questions with multiple choice answers
-- Time limits and due dates
-- Scoring and results tracking
-
-### Messages
-- Sender and recipient references
-- Subject, content, and message type
-- Course association for announcements
-- Read status and timestamps
-
-## 🔐 Authentication & Authorization
-
-### User Roles
-- **Student**: Can enroll in courses, take quizzes, view materials
-- **Teacher**: Can create/manage courses, view students, create quizzes
-- **Admin**: Full system access, user management, system oversight
-
-### Security Features
-- JWT-based authentication
-- Password hashing with bcrypt
-- Role-based access control
-- CORS protection
-- Rate limiting
-- Input validation and sanitization
-
-## 📱 API Endpoints
+## 📡 API Endpoints
 
 ### Authentication
 - `POST /api/auth/login` - User login
 - `POST /api/auth/register` - User registration
-- `GET /api/auth/profile` - Get user profile
-- `PUT /api/auth/profile` - Update profile
+- `GET /api/auth/me` - Get current user profile
+- `PUT /api/auth/profile` - Update user profile
 
 ### Users
-- `GET /api/users` - Get all users (Admin only)
-- `POST /api/users` - Create user (Admin only)
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user (Admin only)
+- `GET /api/users` - Get all users (Admin)
+- `POST /api/users` - Create user (Admin)
+- `PUT /api/users/:id` - Update user (Admin)
+- `DELETE /api/users/:id` - Delete user (Admin)
 
 ### Courses
 - `GET /api/courses` - Get all courses
-- `GET /api/courses/:id` - Get course details
 - `POST /api/courses` - Create course (Teacher/Admin)
-- `PUT /api/courses/:id` - Update course
-- `DELETE /api/courses/:id` - Delete course
+- `GET /api/courses/:id` - Get course details
+- `PUT /api/courses/:id` - Update course (Teacher/Admin)
+- `DELETE /api/courses/:id` - Delete course (Teacher/Admin)
 
 ### Enrollments
 - `GET /api/enrollments` - Get enrollments
 - `POST /api/enrollments/enroll/:courseId` - Enroll in course
 - `DELETE /api/enrollments/unenroll/:courseId` - Unenroll from course
 
-### Quizzes
-- `GET /api/quizzes` - Get quizzes
-- `POST /api/quizzes` - Create quiz
-- `POST /api/quizzes/:id/submit` - Submit quiz answers
-- `GET /api/quizzes/:id/results` - Get quiz results
-
 ### Messages
 - `GET /api/messages/inbox` - Get user messages
 - `POST /api/messages` - Send message
+- `GET /api/messages/conversation/:userId` - Get conversation
 - `PATCH /api/messages/:id/read` - Mark as read
-- `DELETE /api/messages/:id` - Delete message
 
-## 🎨 UI Components
+### Quizzes
+- `GET /api/quizzes` - Get quizzes
+- `POST /api/quizzes` - Create quiz (Teacher/Admin)
+- `POST /api/quizzes/:id/submit` - Submit quiz answers
+- `GET /api/quizzes/:id/results` - Get quiz results
 
-### Navigation
-- Responsive sidebar with role-based menu items
-- Top navigation bar with user info and logout
-- Breadcrumb navigation for better UX
+## 🔧 Development
 
-### Dashboard
-- Role-specific dashboards with relevant statistics
-- Quick action buttons for common tasks
-- Recent activity feeds
+### Frontend Development
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+```
 
-### Forms
-- Consistent form styling with validation
-- Modal forms for quick actions
-- File upload capabilities
+### Backend Development
+```bash
+cd backend
+npm start            # Start production server
+npm run dev          # Start with nodemon (if configured)
+```
 
-### Tables
-- Sortable and filterable data tables
-- Pagination for large datasets
-- Action buttons for each row
+### Database Management
+```bash
+cd backend
+node scripts/seed.js  # Seed database with sample data
+```
 
-## 🚀 Deployment
+## 🧪 Testing
 
-### Backend Deployment
-1. Set up environment variables for production
-2. Configure MongoDB connection
-3. Set up reverse proxy (nginx)
-4. Use PM2 for process management
+### API Testing
+```bash
+# Test authentication
+curl -X POST http://localhost:5001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@lms.com","password":"admin123"}'
+
+# Test protected endpoint
+curl -X GET http://localhost:5001/api/auth/me \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## 📦 Deployment
 
 ### Frontend Deployment
 1. Build the project: `npm run build`
-2. Deploy to static hosting (Vercel, Netlify, etc.)
-3. Configure environment variables
-4. Set up custom domain if needed
+2. Deploy the `dist` folder to your hosting service
 
-## 📊 Sample Data
+### Backend Deployment
+1. Set up environment variables
+2. Install dependencies: `npm install`
+3. Start the server: `npm start`
 
-The seed script creates:
-- 1 Admin user (admin@lms.com / password123)
-- 3 Teacher users with sample courses
-- 10 Student users with enrollments
-- Sample quizzes and course materials
+### Database Deployment
+- Use MongoDB Atlas for cloud hosting
+- Update `MONGODB_URI` in environment variables
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
 5. Submit a pull request
 
 ## 📝 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
 For support and questions:
-- Create an issue in the repository
-- Check the documentation
-- Review the API endpoints
+- Create an issue in the GitHub repository
+- Contact the development team
 
-## 🔄 Future Enhancements
+## 🔄 Version History
 
-- Real-time notifications
-- Video conferencing integration
-- Advanced analytics and reporting
-- Mobile app development
-- Integration with external LMS systems
-- Advanced assessment types
-- File management system
-- Calendar integration
+- **v1.0.0** - Initial release with complete LMS functionality
+- **v0.9.0** - Backend integration and API development
+- **v0.8.0** - Frontend UI/UX improvements
+- **v0.7.0** - Messaging system implementation
+- **v0.6.0** - Course management features
+- **v0.5.0** - User authentication system
+- **v0.4.0** - Basic dashboard and navigation
+- **v0.3.0** - Initial React setup with routing
+- **v0.2.0** - Project structure and planning
+- **v0.1.0** - Project initialization
+
+---
+
+**Built with ❤️ for modern education**
