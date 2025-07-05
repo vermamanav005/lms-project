@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
@@ -13,6 +14,8 @@ import AddCourse from './pages/AddCourse';
 import Students from './pages/Students';
 import Quizzes from './pages/Quizzes';
 import EnrolledCourses from './pages/EnrolledCourses';
+import Messages from './pages/Messages';
+import CourseDetail from './pages/CourseDetail';
 
 function ProtectedRoute({ isAuthenticated, userRole, allowedRoles, children, redirectAuthenticated }) {
   const navigate = useNavigate();
@@ -82,6 +85,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
+      <Toaster position="top-right" />
       {isAuthenticated && (
         <Sidebar
           userRole={userRole}
@@ -151,6 +155,18 @@ function App() {
             }
           />
           <Route
+            path="/courses/:courseId"
+            element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                userRole={userRole}
+                allowedRoles={['Teacher', 'Admin']}
+              >
+                <CourseDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/courses/add"
             element={
               <ProtectedRoute
@@ -191,6 +207,17 @@ function App() {
                 allowedRoles={['Student']}
               >
                 <EnrolledCourses />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                userRole={userRole}
+              >
+                <Messages />
               </ProtectedRoute>
             }
           />

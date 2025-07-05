@@ -4,6 +4,7 @@ import {
   BookOpenIcon,
   UsersIcon,
   QuestionMarkCircleIcon,
+  EnvelopeIcon,
 } from '@heroicons/react/24/outline';
 
 function Sidebar({ userRole, isSidebarOpen, toggleSidebar, closeSidebar }) {
@@ -12,15 +13,19 @@ function Sidebar({ userRole, isSidebarOpen, toggleSidebar, closeSidebar }) {
       { path: '/dashboard', name: 'Dashboard', icon: ChartBarIcon },
       { path: '/enrolled-courses', name: 'Enrolled Courses', icon: BookOpenIcon },
       { path: '/quizzes', name: 'Quizzes', icon: QuestionMarkCircleIcon },
+      { path: '/messages', name: 'Messages', icon: EnvelopeIcon },
     ],
     Teacher: [
       { path: '/dashboard', name: 'Dashboard', icon: ChartBarIcon },
       { path: '/courses', name: 'Courses', icon: BookOpenIcon },
       { path: '/students', name: 'Students', icon: UsersIcon },
       { path: '/quizzes', name: 'Quizzes', icon: QuestionMarkCircleIcon },
+      { path: '/messages', name: 'Messages', icon: EnvelopeIcon },
     ],
     Admin: [
       { path: '/admin-dashboard', name: 'Admin Dashboard', icon: ChartBarIcon },
+      { path: '/users', name: 'Users', icon: UsersIcon },
+      { path: '/messages', name: 'Messages', icon: EnvelopeIcon },
     ],
   };
 
